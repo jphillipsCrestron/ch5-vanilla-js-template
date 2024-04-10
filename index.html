@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/css/style.css">
+    <title>CH5 Vanilla JS Example</title>
+  </head>
+  <body>
+    <div id="controlGroupWrapper">
+        <div class="controlGroup">
+            <button id="sendDigitalButton" class="btn">Toggle Digital</button>
+            <p id="currentDigitalValue">false</p>
+        </div>
+        <div class="controlGroup">
+            <p id="currentAnalogValue"></p>
+            <input type="range" min="0" max="65535" placeholder="32767" id="analogSlider" />
+        </div>
+        <div class="controlGroup">
+            <input type="text" name="Data" id="currentSerialValue" placeholder="Placeholder" />
+        </div>
+    </div>
+
+    <!-- Import the Crestron libraries. Import WebXPanel first, then CrComLib -->
+    <script src="./index.js"></script>
+    <script src="./cr-com-lib.js"></script>
+
+    <!-- Import our own scripts -->
+    <script type="module" src="./src/webxpanel.js"></script>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
