@@ -1,7 +1,7 @@
 {
   "name": "ch5-vanilla-js-template",
   "private": true,
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -20,7 +20,7 @@
     "vite-plugin-static-copy": "^1.0.2"
   },
   "dependencies": {
-    "@crestron/ch5-crcomlib": "^2.9.0",
+    "@crestron/ch5-crcomlib": "^2.10.0",
     "@crestron/ch5-webxpanel": "^2.8.0",
     "eruda": "^3.0.1"
   }
