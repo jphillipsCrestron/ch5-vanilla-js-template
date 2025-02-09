@@ -30,6 +30,11 @@ Historically authenticating a CH5 session is handled by a redirect initiated by 
 ## The entry point
 The entry point is where the Crestron libraries (UMD) will be loaded into the application. In this demo index.html is treated as the entry point for the Crestron libraries.
 
+## Contracts
+A [contract](https://sdkcon78221.crestron.com/sdk/Crestron_HTML5UI/Content/Topics/CE-Overview.htm) is a document that defines how the elements in a UI will interact with a control system program. The Contract Editor outputs programming files for SIMPL Windows and C#, as well as an interface (.cse2j) file for a UI project to reference to interact with said programming files. This allows a UI and program to use descriptive names in a program; so rather than "digital join 1" a UI can reference "HomePage.Lighting.AllOff", which is much easier to read and understand at a glance.
+
+A contract interface (.cse2j) file can be used at both build and run time. At build time the contract file is referenced by the CH5 `archive` script (see [package.json](package.json)), while at run time it must be placed in `/config/contract.cse2j` (named exactly) at the root level of the served files.
+
 ### Initialize the WebXPanel library if running in a browser:
 ```js
 const { WebXPanel, WebXPanelConfigParams, isActive } = window.WebXPanel.getWebXPanel(!window.WebXPanel.runsInContainerApp());
@@ -55,10 +60,23 @@ const s1Id = window.CrComLib.subscribeState('s', '1', (value) => {
     // Handle changes to serial output 1
 });
 
-// Unsubscribe a later time when the join data is no longer needed
+const dc1Id = window.CrComLib.subscribeState('b', 'HomePage.DigitalState', (value) => {
+    // Handle changes to digital output 1
+});
+const aciId = window.CrComLib.subscribeState('n', 'HomePage.AnalogState', (value) => {
+    // Handle changes to analog output 1
+});
+const sc1Id = window.CrComLib.subscribeState('s', 'HomePage.StringState', (value) => {
+    // Handle changes to serial output 1
+});
+
+// Unsubscribe at a later time when the join data is no longer needed
 window.CrComLib.unsubscribeState('b', '1', d1Id);
 window.CrComLib.unsubscribeState('n', '1', aiId);
 window.CrComLib.unsubscribeState('s', '1', s1Id);
+window.CrComLib.unsubscribeState('s', 'HomePage.DigitalState', dc1Id);
+window.CrComLib.unsubscribeState('s', 'HomePage.AnalogState', ac1Id);
+window.CrComLib.unsubscribeState('s', 'HomePage.StringState', sc1Id);
 ```
 
 ### Send data via joins to the control system:
@@ -66,4 +84,7 @@ window.CrComLib.unsubscribeState('s', '1', s1Id);
 window.CrComLib.publishEvent('b', '1', bool value); // Sends a boolean value to digital input 1
 window.CrComLib.publishEvent('n', '1', number value); // Sends a numeric value (0-65535) to analog input 1
 window.CrComLib.publishEvent('s', '1', string value); // Sends a string value to serial input 1
+window.CrComLib.publishEvent('b', 'HomePage.DigitalEvent', bool value); // Sends a boolean value to HomePage.DigitalEvent
+window.CrComLib.publishEvent('n', 'HomePage.AnalogEvent', number value); // Sends a numeric value (0-65535) to HomePage.AnalogEvent
+window.CrComLib.publishEvent('s', 'HomePage.StringEvent', string value); // Sends a string value to serial HomePage.StringEvent
 ```
