@@ -7,6 +7,7 @@
     <title>CH5 Vanilla JS Example</title>
   </head>
   <body>
+    <p style="color: white;">Joins</p>
     <div id="controlGroupWrapper">
         <div class="controlGroup">
             <button id="sendDigitalButton" class="btn">Toggle Digital</button>
@@ -19,6 +20,20 @@
         <div class="controlGroup">
             <input type="text" name="Data" id="currentSerialValue" placeholder="Placeholder" />
         </div>
+    </div>
+    <p style="color: white;">Contracts</p>
+    <div id="controlGroupWrapper">
+      <div class="controlGroup">
+          <button id="sendDigitalContractButton" class="btn">Toggle Digital</button>
+          <p id="currentDigitalContractValue">false</p>
+      </div>
+      <div class="controlGroup">
+          <p id="currentAnalogContractValue"></p>
+          <input type="range" min="0" max="65535" placeholder="32767" id="analogContractSlider" />
+      </div>
+      <div class="controlGroup">
+          <input type="text" name="Data" id="currentSerialValue" placeholder="Placeholder" />
+      </div>
     </div>
 
     <!-- Import the Crestron libraries. Import WebXPanel first, then CrComLib -->

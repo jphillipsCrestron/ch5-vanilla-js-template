@@ -10,6 +10,8 @@ if (import.meta.env.VITE_APP_ENV === 'development') {
     });
 }
 
+//#region JOINS
+
 // Handle digital
 const sendDigitalButton = document.getElementById('sendDigitalButton');
 const currentDigitalValue = document.getElementById('currentDigitalValue');
@@ -48,3 +50,46 @@ window.CrComLib.subscribeState('s', '1', (value) => {
 currentSerialValue.addEventListener('input', (event) => {
     window.CrComLib.publishEvent('s', '1', event.target.value); // Set serial input 1 to the slider value
 });
+
+//#endregion
+
+//#region CONTRACTS
+// Handle digital
+const sendDigitalContractButton = document.getElementById('sendDigitalContractButton');
+const currentDigitalContractValue = document.getElementById('currentDigitalContractValue');
+
+sendDigitalContractButton.addEventListener('click', () => {
+    if (currentDigitalContractValue.textContent.toLowerCase() === 'true') {
+        window.CrComLib.publishEvent('b', 'HomePage.DigitalEvent', false); // Set HomePage.DigitalEvent to false
+    } else {
+        window.CrComLib.publishEvent('b', 'HomePage.DigitalEvent', true); // Set HomePage.DigitalEvent to true
+    }
+});
+
+window.CrComLib.subscribeState('b', 'HomePage.DigitalState', (value) => { // Listen for HomePage.DigitalState
+    currentDigitalContractValue.textContent = value.toString();
+});
+
+// Handle analog
+const currentAnalogContractValue = document.getElementById('currentAnalogContractValue');
+const analogContractSlider = document.getElementById('analogContractSlider');
+
+analogContractSlider.addEventListener('input', (event) => {
+    window.CrComLib.publishEvent('n', 'HomePage.AnalogEvent', parseInt(event.target.value)); // Set HomePage.AnalogEvent to the slider value
+});
+
+window.CrComLib.subscribeState('n', 'HomePage.AnalogState', (value) => {
+    currentAnalogContractValue.textContent = value; // Listen for changes to HomePage.AnalogState
+});
+
+// Handle serial
+const currentSerialContractValue = document.getElementById('currentSerialContractValue');
+
+window.CrComLib.subscribeState('s', 'HomePage.StringState', (value) => {
+    currentSerialContractValue.value = value; // Listen for changes to HomePage.StringState
+});
+
+currentSerialContractValue.addEventListener('input', (event) => {
+    window.CrComLib.publishEvent('s', 'HomePage.StringEvent', event.target.value); // Set HomePage.StringEvent to the slider value
+});
+//#endregion
